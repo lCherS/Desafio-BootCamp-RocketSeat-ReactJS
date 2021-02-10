@@ -20,27 +20,25 @@ function App() {
         setReps(res.data);
       }
     })
-  }, [handleRemoveRepository])
+  }, [])
 
   async function handleAddRepository() {
     // TODO
     const res = await api.post('/repositories', {
       title:`Desafio ReactJS ${Date.now()}`,
-      techs: ['JS', 'React'],
-      url: "https://github.com/"
+      url: "https://github.com/",
+      techs: ['JS', 'React']
     })
 
-    const repositorio = res.data;
-
-    setReps([...reps, repositorio])
-
-    console.log(reps);
+    setReps([...reps, res.data])
   }
 
   async function handleRemoveRepository(id) {
-    api.delete(`/repositories/${id}`)
+    await api.delete(`/repositories/${id}`)
     
-    console.log(reps);
+    setReps(reps.filter(
+      repository => repository.id !== id
+    ))
   }
 
   return ( 
